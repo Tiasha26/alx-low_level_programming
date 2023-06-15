@@ -1,2 +1,2 @@
 #!/bin/bash
-int main() { puts("Programming is like building a multilingual puzzle"), 0; }
+int main() { return puts("Programming is like building a multilingual puzzle"), 0; }
