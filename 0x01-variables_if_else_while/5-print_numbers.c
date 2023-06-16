@@ -1,11 +1,17 @@
 #include <stdio.h>
-
-int main(void) {
+/**
+ * main - Starting point
+ *
+ * Return: Always 0 (Success)
+ */
+int main(void) 
+{
 	    char digit;
 
-	        for (digit = '0'; digit <= '9'; digit++) {
+	        for (digit = '0'; digit <= '9'; digit++) 
+		{
 			        putchar(digit);
-				    }
+		}
 
 		    putchar('\n');
 
