@@ -6,21 +6,24 @@
  */
 int main(void)
 {
-	int nums;
-	int nums1;
+	int num1, num2;
 
-	for (nums = '0'; nums <= '9'; nums++)
+	for (num1 = 0; num1 <= 99; num1++)
 	{
-		for (nums1 = '0'; nums1 <= '9'; nums1++)
+		for (num2 = num1; num2 <= 99; num2++)
 		{
-			putchar(nums);
-			putchar(nums1);
-			if (nums == '9' && nums1 == '9')
-				continue;
+			putchar('00' + num1 / 10);
+			putchar('00' + num1 % 10);
+			putchar(' ');
+			putchar('00' + num2 / 10);
+			putchar('00' + num2 % 10);
+
+		if (num1 != 99 || num2 != 99)
+		{
 			putchar(',');
 			putchar(' ');
 		}
+		}
 	}
-	putchar('\n');
 	return (0);
 }
