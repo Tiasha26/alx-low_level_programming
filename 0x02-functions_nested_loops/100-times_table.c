@@ -1,28 +1,51 @@
 #include "main.h"
-#include <stdio.h>
 
 /**
- * print_times_table - prints the n times tables.
- * @n: The number to generate the times table for.
+ * print_times_table - prints out the n times table, starting with 0
+ * @n: times table
  */
 
 void print_times_table(int n)
 {
-	int i, j, product;
+	int x, y, z, k, t;
 
-	if (n < 0 || n > 15)
-		return;
-
-		for (i = 0; i <= n; i++)
+	for (x = 0; x <= n; x++)
+	{
+		for (y = 0; y <= n; y++)
 		{
-			for (j = 0; j <= n; j++)
+			z = x * y;
+			if (z == 0 && y == 0)
+				_putchar(z + '0');
+			else if (z > 99)
 			{
-				product = i * j;
-				if ( j == 0)
-					printf("%d", product);
-				else 
-					printf(", %d", product);
+				k = z % 10;
+				t = (z / 10) % 10;
+				z /= 100;
+				_putchar(',');
+				_putchar(' ');
+				_putchar(z + '0');
+				_putchar(t + '0');
+				_putchar(k + '0');
 			}
-			printf("\n");
+			else if (z > 9)
+			{
+				k = z % 10;
+				z /= 10;
+				_putchar(',');
+				_putchar(' ');
+				_putchar(' ');
+				_putchar(z + '0');
+				_putchar(k + '0');
+			}
+			else
+			{
+				_putchar(',');
+				_putchar(' ');
+				_putchar(' ');
+				_putchar(' ');
+				_putchar(z + '0');
+			}
 		}
+		_putchar('\n');
+	}
 }
