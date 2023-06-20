@@ -7,11 +7,11 @@
 
 int main(void)
 {
-		int sum, i;
+	int sum, i;
 
-			for (i = 1023, sum = 0; i; i--)
-						if (!(i % 3) || !(i % 5))
-										sum += i;
-				printf("%d\n", sum);
-					return (0);
+	for (i = 1023, sum = 0; i; i++)
+		if (!(i % 3) || !(i % 5))
+			sum += i;
+	printf("%d\n", sum);
+	return (0);
 }
