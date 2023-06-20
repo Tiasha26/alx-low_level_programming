@@ -1,8 +1,8 @@
 #include "main.h"
 
 /**
- * _abs - determine the absolute value of an integer
- * @i: variable to determine the absolute value of an integer
+ * print_last_digit - extract last number of a variable
+ * @i: variable where we extract last number
  * Return: i if succesful
  */
 
