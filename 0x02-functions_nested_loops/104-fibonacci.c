@@ -8,9 +8,9 @@
 int main(void)
 {
 	int count = 98;
-	int prev = 1;
-	int current = 2;
-	int next;
+	unsigned int prev = 1;
+	unsigned int current = 2;
+	unsigned int next;
 
 	printf("%u, %u", prev, current);
 
