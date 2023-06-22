@@ -1,10 +1,10 @@
 #include "main.h"
 
 /**
- * mul - multiply two integers
- * @a:integer one to be multiplied
- * @b:integer two to be multiplied
- * Returns: value of the two multiplied integers
+ * mul - Multiplies two integers
+ * @a: The first integer.
+ * @b: The second integer.
+ * Return: The product of a and b
  */
 
 int mul(int a, int b)
