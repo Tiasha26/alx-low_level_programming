@@ -65,7 +65,7 @@ int copy_file(int from_fd, int to_fd)
 	char buffer[1024];
 	ssize_t read_bytes, write_bytes;
 
-	while ((read_bytes = read(from_fd, buffer)) > 0)
+	while ((read_bytes = read(from_fd, buffer, 1024)) > 0)
 	{
 		write_bytes = write(to_fd, buffer, read_bytes);
 
