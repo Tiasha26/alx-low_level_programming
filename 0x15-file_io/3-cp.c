@@ -72,5 +72,9 @@ int copy_file(int from_fd, int to_fd)
 		if (write_bytes == -1 || write_bytes != read_bytes)
 			return (-1);
 	}
-	return ((read_bytes == -1) ? -1 : 0);
+	if (read_bytes == -1)
+	{
+		return (-1);
+	}
+	return (0);
 }
