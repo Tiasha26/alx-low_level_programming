@@ -80,14 +80,13 @@ void copy_file(int fd_from, int fd_to)
  */
 int main(int argc, char *argv[])
 {
+	char *file_from = argv[1];
+	char *file_to = argv[2];
+
 	if (argc != 3)
 	{
 		exit_with_error(97, "Usage: cp file_from file_to\n");
 	}
-
-	char *file_from = argv[1];
-	char *file_to = argv[2];
-
 	int fd_from = open_file(file_from, O_RDONLY, 0);
 	int fd_to = open_file(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 
