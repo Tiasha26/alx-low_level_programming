@@ -23,6 +23,6 @@ int open_file(const char *filename, int flags, int mode);
 int copy_file(int from_fd, int to_fd);
 int main(int argc, char *argv[]);
 
-void print_elf_header(Elf64_Ehdr *ehdr);
+void print_elf_header(Elf64_Ehdr *header);
 
 #endif /* MAIN_H */
