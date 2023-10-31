@@ -1,80 +1,86 @@
 #include "main.h"
-int open_file(const char *filename, int flags, int mode);
-int copy_file(int from_fd, int to_fd);
 /**
- * main - Copies the content of a file to another file.
- * @argc: The number of command-line arguments.
- * @argv: An array of command-line argument strings.
- *
- * Return: 0 on success, or the corresponding error code on failure.
+ * exit_with_error - Print an error message and exit with a specific code.
+ * @code: The exit code.
+ * @format: The error message format.
+ * @...: Additional arguments for the error message.
  */
-int main(int argc, char *argv[])
+void exit_with_error(int code, const char *format, ...)
 {
-	int fd_from, fd_to;
+	va_list args;
 
-	if (argc != 3)
-	{
-		dprintf(STDERR_FILENO, "Usage: %s file_from file_to\n", argv[0]);
-		exit(97);
-	}
-	fd_from = open_file(argv[1], O_RDONLY, 0);
-	fd_to = open_file(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0664);
-
-	if (copy_file(fd_from, fd_to) == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
-		close(fd_from);
-		close(fd_to);
-		exit(99);
-	}
-	close(fd_from);
-	close(fd_to);
-	return (0);
+	va_start(args, format);
+	dprintf(STDERR_FILENO, format, args);
+	va_end(args);
+	exit(code);
 }
-
 /**
- * open_file - Opens a file with specified flags and mode.
- * @filename: The name of the file.
- * @flags: File opening flags.
- * @mode: File permissions mode.
- *
- * Return: File descriptor on success, or exits with an error
- * message on failure.
+ * open_file - Open a file with error handling.
+ * @filename: The name of the file to open.
+ * @flags: The file open flags.
+ * @mode: The file mode.
+ * Return: The file descriptor on success.
  */
-int open_file(const char *filename, int flags, int mode)
+int open_file(const char *filename, int flags, mode_t mode)
 {
 	int fd = open(filename, flags, mode);
 
 	if (fd == -1)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
-		exit(98);
+		exit_with_error(98, "Error: Can't read from file %s\n", filename);
 	}
 	return (fd);
 }
-
 /**
- * copy_file - Copies data from one file descriptor to another.
- * @from_fd: Source file descriptor.
- * @to_fd: Destination file descriptor.
- *
- * Return: 0 on success, -1 on failure.
+ * close_file - Close a file with error handling.
+ * @fd: The file descriptor to close.
  */
-int copy_file(int from_fd, int to_fd)
+void close_file(int fd)
 {
+	if (close(fd) == -1)
+	{
+		exit_with_error(100, "Error: Can't close fd %d\n", fd);
+	}
+}
+/**
+ * cp_file - Copy the content of one file to another.
+ * @file_from: The source file name.
+ * @file_to: The destination file name.
+ */
+void cp_file(const char *file_from, const char *file_to)
+{
+	int fd_from = open_file(file_from, O_RDONLY, 0);
+	int fd_to = open_file(file_to, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	char buffer[1024];
-	ssize_t read_bytes, write_bytes;
+	ssize_t bytes_read, bytes_written;
 
-	while ((read_bytes = read(from_fd, buffer, 1024)) > 0)
+	while ((bytes_read = read(fd_from, buffer, sizeof(buffer)) > 0))
 	{
-		write_bytes = write(to_fd, buffer, read_bytes);
+		bytes_written = write(fd_to, buffer, bytes_read);
 
-		if (write_bytes == -1 || write_bytes != read_bytes)
-			return (-1);
+		if (bytes_written == -1)
+		{
+			exit_with_error(99, "Error: Can't write to file %s\n", file_to);
+		}
 	}
-	if (read_bytes == -1)
+	close_file(fd_from);
+	close_file(fd_to);
+}
+/**
+ * main - Entry point for the cp program.
+ * @argc: The number of command-line arguments.
+ * @argv: An array of command-line argument strings.
+ * Return: 0 on success, other values on failure.
+ */
+int main(int argc, char *argv[])
+{
+	if (argc != 3)
 	{
-		return (-1);
+		exit_with_error(97, "Usage: cp file_from file_to\n");
 	}
+	char *file_from = argv[1];
+	char *file_to = argv[2];
+
+	cp_file(file_from, file_to);
 	return (0);
 }
